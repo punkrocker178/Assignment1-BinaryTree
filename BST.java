@@ -32,10 +32,17 @@ public class BST<E extends Comparable<E>> extends Student<E> {
 }
 
     private TreeNode<E> root;
+    /*Create an emty Tree*/
+    public void emtyTree(){
+        root = null;
+    }
+
+    /*Constructor*/
     public BST(){
         root =null;
     }
 
+    /*Number of Tree nodes*/
     private int size(TreeNode<E> node){
         if(node == null){
             return 0;
@@ -46,7 +53,8 @@ public class BST<E extends Comparable<E>> extends Student<E> {
     public int size(){
         return size(root);
     }
-    
+
+    /*Tree's height*/
     private int height(TreeNode<E> node){
         if(node==null){
             return -1;
@@ -58,6 +66,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         return height(root);
     }
 
+    /*Method insert-----insert(TreeNode , Parent , Student's MSSV , Student's Name , Student's DOB , Student's AVG , Student's credit)*/
     private TreeNode<E> insert(TreeNode<E> node,TreeNode<E> parent,int key,String name,String dob,double avg,int credits){
     if(node==null){
         return new TreeNode<E>(key,name,dob,avg,credits,1,0,parent);
@@ -77,6 +86,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         root = insert(root,root,key,name,dob,avg,credits);
     }
 
+    /*Find the biggest int key in Tree*/
     private TreeNode<E> findMax(TreeNode<E> node){
         if(node.right == null){
             return node;
@@ -84,6 +94,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         return findMax(node.right);
     }
 
+    /*Find the smallest int key in Tree*/
     private TreeNode<E> findMin(TreeNode<E> node){
         if(node.left==null){
             return node;
@@ -99,6 +110,10 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         System.out.println("Min is: "+findMin(root).key);
     }
 
+    /*3 type of Tree Traversal
+    * 1/In order
+    * 2/Pre order
+    * 3/Post order*/
     private void inorder(TreeNode<E> node){
         if(node!=null){
             inorder(node.left);
@@ -123,6 +138,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         }
     }
 
+    /*Print*/
     public void traverse(int option){
         System.out.println("MSSV - Name - AVG - Credits");
         switch(option){
@@ -141,7 +157,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
 
         }
     }
-
+	/*Seach a Node of Tree by a key*/
     private TreeNode<E> search(TreeNode<E> node,Integer key){
         if(node!=null){
             if(node.key.compareTo(key)==0){
@@ -164,6 +180,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         return false;
     }
 
+    /*Find Predecessor of a Node*/
     private TreeNode<E> preDecessor(TreeNode<E> node){
         TreeNode<E> p = node.parent;
         TreeNode<E> t = node;
@@ -182,6 +199,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         return p;
     }
 
+    /*Find Successor of a Node*/
     private TreeNode<E> sucCessor(TreeNode<E> node){
         TreeNode<E> p = node.parent;
         TreeNode<E> t = node;
@@ -220,7 +238,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
     }
 
 
-
+	/*Tree Deletion*/
     private TreeNode<E> deleteMin(TreeNode<E> node){
         if(node.left==null){
             return node.right;
@@ -241,6 +259,10 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         return node;
     }
 
+    /*Delete 3 types of a Node
+    * 1/Leaf node
+    * 2/Node with 1 child
+    * 3/Node with 2 child*/
     private TreeNode<E> delete(TreeNode<E> node,Integer key) {
         TreeNode<E> p = node.parent;
 
@@ -258,23 +280,26 @@ public class BST<E extends Comparable<E>> extends Student<E> {
 
         } else {
 
-            if (node.left == null && node.right == null) {
+            if (node.left == null && node.right == null) {	//Leaf node
 
                 return null;
 
-            } else if (node.left == null) {
+            } else if (node.left == null) {					//Node with right child
 
                 node.right.parent = p;
 
                 return node.right;
 
-            } else if (node.right == null) {
+            } else if (node.right == null) {				//Node with left child
 
                 node.left.parent = p;
 
                 return node.left;
             }
-
+			/*Node with 2 child
+			* Explaination: find the successor of a node and copy the successor's data to the current Node
+			 * then delete the successor's Node
+			 * Update tree size and height again*/
             node.key = sucCessor(node).getKey();
             node.right = delete(node.right,node.right.getKey());
 
@@ -329,7 +354,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
 
         }
     }
-
+	/*This method use Bubble Sort to sort all students's key from smallest to largest to an array*/
     public void skewedRight(int n){
         Collections.shuffle(studentsName);
 //        HashSet<Integer> r = new HashSet<Integer>();
@@ -349,6 +374,25 @@ public class BST<E extends Comparable<E>> extends Student<E> {
 
     }
 
+    /*Same as skewedRight method but this time we use backward for loop*/
+    public void skewedLeft(int n){
+		Collections.shuffle(studentsName);
+		int[] r = new int[n];
+		int i = 0;
+		Random ran = new Random();
+		while(i<n){
+			r[i] = ran.nextInt((999-100)+100);
+			i++;
+		}
+		r = sort(r);
+
+		for(int j=n-1;j>=0;j--){
+			Student stu = new Student();
+			root = insert(root,root,r[j],studentsName.get(j),stu.randDOB(),stu.randomAvg(),stu.randomCre());
+		}
+	}
+
+	/*Bubble Sort*/
     private int[] sort(int[] r){
         int tmp;
         for(int i = 1;i<r.length;i++){

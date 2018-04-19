@@ -7,15 +7,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="root" prefHeight="565.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hieu.GuiMain">
+<AnchorPane fx:id="root" prefHeight="565.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hieu.Controller">
    <children>
       <VBox alignment="CENTER" layoutX="14.0" layoutY="70.0" prefHeight="258.0" prefWidth="132.0" style="-fx-border-color: gray;" AnchorPane.topAnchor="70.0">
          <children>
-            <Button fx:id="button1" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" text="Empty Tree" textAlignment="CENTER" translateY="-20.0" />
-            <Button fx:id="button2" mnemonicParsing="false" onAction="#start" text="Randomize Tree" translateY="-10.0" />
-            <Button fx:id="button3" mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="105.0" text="Insert Manually" />
-            <Button fx:id="button4" mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="102.0" text="Skewed Left" translateY="10.0" />
-            <Button fx:id="button5" mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="102.0" text="Skewed Right" translateY="20.0" />
+            <Button fx:id="button1" mnemonicParsing="false" onAction="#buttonChoose" prefHeight="25.0" prefWidth="102.0" text="Empty Tree" textAlignment="CENTER" translateY="-20.0" />
+            <Button fx:id="button2" mnemonicParsing="false" onAction="#buttonChoose" text="Randomize Tree" translateY="-10.0" />
+            <Button fx:id="button3" mnemonicParsing="false" onAction="#buttonChoose" prefHeight="25.0" prefWidth="105.0" text="Insert Manually" />
+            <Button fx:id="button4" mnemonicParsing="false" onAction="#buttonChoose" prefHeight="25.0" prefWidth="102.0" text="Skewed Right" translateY="10.0" />
+            <Button fx:id="button5" mnemonicParsing="false" onAction="#buttonChoose" prefHeight="25.0" prefWidth="102.0" text="Skewed Left" translateY="20.0" />
          </children>
       </VBox>
       <Canvas fx:id="canvas" height="488.0" layoutX="179.0" layoutY="48.0" width="636.0" />
