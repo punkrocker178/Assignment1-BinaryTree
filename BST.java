@@ -1,7 +1,7 @@
 package hieu;
 
-
-
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.lang.*;
 import java.util.*;
@@ -12,9 +12,10 @@ public class BST<E extends Comparable<E>> extends Student<E> {
 
     private TreeNode<T> left,right,parent;
     private int size,height;
+    private double x,y;
 
 
-    private TreeNode(int key, String name,String dob, double Avg, int credits, int size, int height, TreeNode<T> parent) {
+    private TreeNode(int key, String name,String dob, double Avg, int credits, int size, int height, TreeNode<T> parent,double x,double y) {
         this.key = key;
         this.name =name;
         this.Average = Avg;
@@ -25,6 +26,8 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         this.size = size;
         this.parent = parent;
         this.dob = dob;
+        this.x = x;
+        this.y =y;
     }
 
 
@@ -66,25 +69,58 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         return height(root);
     }
 
-    /*Method insert-----insert(TreeNode , Parent , Student's MSSV , Student's Name , Student's DOB , Student's AVG , Student's credit)*/
-    private TreeNode<E> insert(TreeNode<E> node,TreeNode<E> parent,int key,String name,String dob,double avg,int credits){
+    /*Method insert-----insert(GraphicsContext,X position,Y position,TreeNode , Parent , Student's MSSV , Student's Name , Student's DOB , Student's AVG , Student's credit)*/
+    private TreeNode<E> insert(GraphicsContext gc,double x,double y,TreeNode<E> node,TreeNode<E> parent,int key,String name,String dob,double avg,int credits){
+
     if(node==null){
-        return new TreeNode<E>(key,name,dob,avg,credits,1,0,parent);
+        /*
+        Begin to draw the circle,text and a line
+         */
+
+        gc.fillOval(x,y,30,30);
+        gc.setStroke(Color.GREEN);
+        gc.strokeText(String.valueOf(key),x+5,y+20);
+
+        return new TreeNode<E>(key,name,dob,avg,credits,1,0,parent,x,y);
+
     }else if(node!=null){
         if(node.key.compareTo(key)<0){
-            node.right = insert(node.right,node,key,name,dob,avg,credits);
+//
+            node.right = insert(gc,node.x+50,node.y+40,node.right,node,key,name,dob,avg,credits);
+
         }else if(node.key.compareTo(key)>0){
-            node.left = insert(node.left,node,key,name,dob,avg,credits);
+//
+            node.left = insert(gc,node.x-50,node.y+40,node.left,node,key,name,dob,avg,credits);
+
         }
     }
+
         node.size = 1+size(node.left)+size(node.right);
         node.height = 1+Math.max(height(node.left),height(node.right));
+
+        gc.stroke();
         return node;
     }
 
-    public void insert(Integer key,String name,String dob,double avg,int credits){
-        root = insert(root,root,key,name,dob,avg,credits);
+    public void insert(GraphicsContext gc,double x,double y, Integer key, String name, String dob, double avg, int credits){
+        root = insert(gc,x,y,root,root,key,name,dob,avg,credits);
     }
+
+    /*Find Parent of Node*/
+	private TreeNode<E> checkParent(TreeNode<E> node){
+
+			if(node == null){
+				return null;
+			}
+		return node.parent;
+	}
+
+	public Integer checkParent(Integer key){
+		TreeNode<E> node = search(root,key);
+		TreeNode<E> parent = checkParent(node);
+		return parent.getKey();
+	}
+
 
     /*Find the biggest int key in Tree*/
     private TreeNode<E> findMax(TreeNode<E> node){
@@ -338,57 +374,57 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         }
         return node.getKey()+" - "+node.getName()+" - "+node.getAvg()+" - "+node.getCredits();
     }
-    public void getInfo(Integer key){
+    public String getInfo(Integer key){
         String info = getInfo(root,key);
-        System.out.println("Info of "+key+" is :");
-        System.out.println("Key - Name - AVG - Credits");
-        System.out.println(info);
+       return info;
     }
 
-    public void randomize(int n){
+    public void randomize(int n,GraphicsContext gc){
         Collections.shuffle(studentsName);
         for(int i=0;i<n;i++) {
             Student stu = new Student();
 //            root = insert(root, root.randomMSSV(), studentsName.get(i), root.randomAvg(), root.randomCre());
-            root = insert(root,root,stu.randomMSSV(),studentsName.get(i),stu.randDOB(),stu.randomAvg(),stu.randomCre());
+            root = insert(gc,400,20,root,root,stu.randomMSSV(),studentsName.get(i),stu.randDOB(),stu.randomAvg(),stu.randomCre());
 
         }
     }
 	/*This method use Bubble Sort to sort all students's key from smallest to largest to an array*/
-    public void skewedRight(int n){
+    public void skewedRight(int n,GraphicsContext gc){
         Collections.shuffle(studentsName);
 //        HashSet<Integer> r = new HashSet<Integer>();
         int[] r = new int[n];
         int i = 0;
         Random ran = new Random();
         while(i<n){
-            r[i] = ran.nextInt((999-100)+100);
+            r[i] = ran.nextInt(999-100)+100;
+
             i++;
         }
         r = sort(r);
 
         for(int j=0;j<n;j++){
             Student stu = new Student();
-            root = insert(root,root,r[j],studentsName.get(j),stu.randDOB(),stu.randomAvg(),stu.randomCre());
+            root = insert(gc,400,20,root,root,r[j],studentsName.get(j),stu.randDOB(),stu.randomAvg(),stu.randomCre());
         }
 
     }
 
     /*Same as skewedRight method but this time we use backward for loop*/
-    public void skewedLeft(int n){
+    public void skewedLeft(int n,GraphicsContext gc){
 		Collections.shuffle(studentsName);
 		int[] r = new int[n];
 		int i = 0;
 		Random ran = new Random();
 		while(i<n){
-			r[i] = ran.nextInt((999-100)+100);
+			r[i] = ran.nextInt(999-100)+100;
+
 			i++;
 		}
 		r = sort(r);
 
 		for(int j=n-1;j>=0;j--){
 			Student stu = new Student();
-			root = insert(root,root,r[j],studentsName.get(j),stu.randDOB(),stu.randomAvg(),stu.randomCre());
+			root = insert(gc,400,20,root,root,r[j],studentsName.get(j),stu.randDOB(),stu.randomAvg(),stu.randomCre());
 		}
 	}
 

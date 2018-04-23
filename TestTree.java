@@ -1,4 +1,7 @@
 package hieu;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+
 import java.util.*;
 
 public class TestTree {
@@ -26,8 +29,9 @@ public class TestTree {
 
 
 //
+        Canvas canvas = new Canvas();
         String input = "";
-
+        GraphicsContext gc = canvas.getGraphicsContext2D();
         Scanner sc= new Scanner(System.in);
         BST tree = new BST();
         System.out.println("1.Emty Tree:");
@@ -43,19 +47,19 @@ public class TestTree {
             case 2:
                 System.out.println("How many students?");
                 int n = sc.nextInt();
-                tree.randomize(n);
+                tree.randomize(n,gc);
                 break;
             case 3:
                 sc.nextLine();
                 System.out.println("Input: Key-Name-DOB-AVG-Credits");
                 input = sc.nextLine();
                 String[] data = input.split("-");
-                tree.insert(Integer.parseInt(data[0]),data[1],data[2],Double.parseDouble(data[3]),Integer.parseInt(data[4]));
+                tree.insert(gc,300,20,Integer.parseInt(data[0]),data[1],data[2],Double.parseDouble(data[3]),Integer.parseInt(data[4]));
                 break;
             case 4:
                 System.out.println("How many students?");
                 int sk = sc.nextInt();
-                tree.skewedRight(sk);
+                tree.skewedRight(sk,gc);
                 break;
             case 5:
                 break;
