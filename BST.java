@@ -8,31 +8,7 @@ import java.util.*;
 
 public class BST<E extends Comparable<E>> extends Student<E> {
 
- private class TreeNode<T extends Comparable<T>> extends Student<E> {
 
-    private TreeNode<T> left,right,parent;
-    private int size,height;
-    private double x,y;
-
-
-    private TreeNode(int key, String name,String dob, double Avg, int credits, int size, int height, TreeNode<T> parent,double x,double y) {
-        this.key = key;
-        this.name =name;
-        this.Average = Avg;
-        this.credits = credits;
-        this.left = null;
-        this.right = null;
-        this.height = height;
-        this.size = size;
-        this.parent = parent;
-        this.dob = dob;
-        this.x = x;
-        this.y =y;
-    }
-
-
-
-}
 
     private TreeNode<E> root;
     /*Create an emty Tree*/
@@ -367,6 +343,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
 //
 //    }
 
+	/*Get information of a node*/
     private String getInfo(TreeNode<E> node,Integer key){
         node = search(node,key);
         if(node==null){
