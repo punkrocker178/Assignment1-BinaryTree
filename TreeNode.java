@@ -23,5 +23,22 @@ public class TreeNode<T extends Comparable<T>> extends Student<T> {
 	}
 
 
+	public void setName(String name){
+		this.name = name;
+	}
+
+	public void setDOB(String dob){
+		this.dob = dob;
+	}
+
+	public void setAVG(double avg){
+		this.Average = avg;
+	}
+
+	public void setCredits(int credits){
+		this.credits = credits;
+	}
+
+
 
 }

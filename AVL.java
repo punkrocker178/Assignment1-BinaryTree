@@ -168,48 +168,106 @@ public class AVL<E extends Comparable<E>> extends Student<E> {
 	 * 1/In order
 	 * 2/Pre order
 	 * 3/Post order*/
-	private void inorder(TreeNode<E> node){
+	private String inorder(TreeNode<E> node,String s){
+
 		if(node!=null){
-			inorder(node.left);
+			s = inorder(node.left,s);
+			s=s+node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits()+"\n";
 			System.out.println(node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits());
-			inorder(node.right);
+			s=inorder(node.right,s);
 		}
+		return s;
 	}
 
-	private void preorder(TreeNode<E> node){
+	private String preorder(TreeNode<E> node,String s){
+
 		if(node!=null){
+			s=s+node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits()+"\n";
 			System.out.println(node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits());
-			preorder(node.left);
-			preorder(node.right);
+			s=preorder(node.left,s);
+			s=preorder(node.right,s);
 		}
+		return s;
 	}
 
-	private void postOrder(TreeNode<E> node){
+	private String postOrder(TreeNode<E> node,String s){
+
 		if(node!=null){
-			postOrder(node.left);
-			postOrder(node.right);
+			s=postOrder(node.left,s);
+			s=postOrder(node.right,s);
+			s=s+node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits()+"\n";
 			System.out.println(node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits());
 		}
+		return s;
 	}
+
+	private String RNL(TreeNode<E> node,String s){
+		if(node!=null){
+
+			s=postOrder(node.right,s);
+			s=s+node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits()+"\n";
+			s=postOrder(node.left,s);
+
+		}
+		return s;
+	}
+
+	private String RLN(TreeNode<E> node,String s){
+		if(node!=null){
+
+			s=postOrder(node.right,s);
+			s=postOrder(node.left,s);
+			s=s+node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits()+"\n";
+
+
+		}
+		return s;
+	}
+
+	private String NRL(TreeNode<E> node,String s){
+		if(node!=null){
+
+			s=s+node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits()+"\n";
+			s=postOrder(node.left,s);
+			s=postOrder(node.right,s);
+
+		}
+		return s;
+	}
+
 
 	/*Print*/
-	public void traverse(int option){
+	public String traverse(int option){
+		String s= "";
 		System.out.println("MSSV - Name - AVG - Credits");
 		switch(option){
 			case 1:
 				System.out.println("Inorder: ");
-				inorder(root);
+				s = inorder(root,"");
 				break;
 			case 2:
 				System.out.println("Preorder: ");
-				preorder((root));
+				s = preorder(root,"");
 				break;
 			case 3:
 				System.out.println("Postorder: ");
-				postOrder(root);
+				s = postOrder(root,"");
+				break;
+			case 4:
+				System.out.println("RNL");
+				s = RNL(root,"");
+				break;
+			case 5:
+				System.out.println("NRL");
+				s = NRL(root,"");
+				break;
+			case 6:
+				System.out.println("RLN");
+				s = RLN(root,"");
 				break;
 
 		}
+		return s;
 	}
 
 	/*Seach a Node of Tree by a key*/
@@ -297,23 +355,179 @@ public class AVL<E extends Comparable<E>> extends Student<E> {
 		return p;
 	}
 
-	public void preDecessor(Integer key){
+	public String preDecessor(Integer key){
 		TreeNode<E> node = search(root,key);
-		if(searchNode(key)==true) {
-			System.out.println("Predecessor of " + key + " is: " + preDecessor(node).getKey());
+		Integer getPre = preDecessor(node).getKey();
+		return getPre+"";
+	}
+
+	public String sucCessor(Integer key){
+		TreeNode<E> node = search(root,key);
+		Integer getSucc = sucCessor(node).getKey();
+		return getSucc+"";
+	}
+
+	/*Tree Deletion*/
+	private TreeNode<E> deleteMin(TreeNode<E> node){
+		if(node.left==null){
+			return node.right;
+		}
+		node.left = deleteMin(node.left);
+		root.size = 1+size(node.left)+size(node.right);
+		root.height = 1+ Math.max(height(node.left),height(node.right));
+		return node;
+	}
+
+	private TreeNode<E> delMax(TreeNode<E> node){
+		if(node.right == null){
+			return node.left;
+		}
+		node.right= delMax(node.right);
+		root.size = 1+size(node.left)+size(node.right);
+		root.height = 1+Math.max(height(node.left),height(node.right));
+		return node;
+	}
+
+	/*Delete 3 types of a Node
+	 * 1/Leaf node
+	 * 2/Node with 1 child
+	 * 3/Node with 2 child*/
+	private TreeNode<E> delete(TreeNode<E> node,Integer key) {
+		TreeNode<E> p = node.parent;
+
+		if (node == null) {
+
+			return null;
+
+		} else if (node.getKey().compareTo(key) < 0) {
+
+			node.right = delete(node.right, key);
+
+		} else if (node.getKey().compareTo(key) > 0) {
+
+			node.left = delete(node.left, key);
+
+		} else {
+
+			if (node.left == null && node.right == null) {	//Leaf node
+
+				return null;
+
+			} else if (node.left == null) {					//Node with right child
+
+				node.right.parent = p;
+
+				return node.right;
+
+			} else if (node.right == null) {				//Node with left child
+
+				node.left.parent = p;
+
+				return node.left;
+			}
+			/*Node with 2 child
+			 * Explaination: find the successor of a node and copy the successor's data to the current Node
+			 * then delete the successor's Node
+			 * Update tree size and height again*/
+			node.key = sucCessor(node).getKey();
+			node.right = delete(node.right,node.right.getKey());
+
+			node.size = 1 + size(node.left) + size(node.right);
+
+			node.height = 1 + Math.max(height(node.left), height(node.right));
+
+
+
+		}
+
+		return balancing(node);
+
+	}
+
+	public void del(Integer key){
+
+		if(searchNode(key) == false){
+			System.out.println("No such key found!");
 		}else{
-			System.out.println(key+" has no Predecessor!");
+			root = delete(root,key);
 		}
 	}
 
-	public void sucCessor(Integer key){
-		TreeNode<E> node = search(root,key);
-		if(searchNode(key)==true){
-			System.out.println("sucCessor of "+key+" is: "+sucCessor(node).getKey());
-		}else{
-			System.out.println(key+" has no Successor!");
+	/*Random all info*/
+	public void randomize(int n,GraphicsContext gc){
+		Collections.shuffle(studentsName);
+		for(int i=0;i<n;i++) {
+			Student stu = new Student();
+//            root = insert(root, root.randomMSSV(), studentsName.get(i), root.randomAvg(), root.randomCre());
+			root = insert(gc,400,20,root,root,stu.randomMSSV(),studentsName.get(i),stu.randDOB(),stu.randomAvg(),stu.randomCre());
+
+		}
+	}
+	/*This method use Bubble Sort to sort all students's key from smallest to largest to an array*/
+	public void skewedRight(int n,GraphicsContext gc){
+		Collections.shuffle(studentsName);
+//        HashSet<Integer> r = new HashSet<Integer>();
+		int[] r = new int[n];
+		int i = 0;
+		Random ran = new Random();
+		while(i<n){
+			r[i] = ran.nextInt(999-100)+100;
+
+			i++;
+		}
+		r = sort(r);
+
+		for(int j=0;j<n;j++){
+			Student stu = new Student();
+			root = insert(gc,400,20,root,root,r[j],studentsName.get(j),stu.randDOB(),stu.randomAvg(),stu.randomCre());
 		}
 
+	}
+
+	/*Same as skewedRight method but this time we use backward for loop*/
+	public void skewedLeft(int n,GraphicsContext gc){
+		Collections.shuffle(studentsName);
+		int[] r = new int[n];
+		int i = 0;
+		Random ran = new Random();
+		while(i<n){
+			r[i] = ran.nextInt(999-100)+100;
+
+			i++;
+		}
+		r = sort(r);
+
+		for(int j=n-1;j>=0;j--){
+			Student stu = new Student();
+			root = insert(gc,400,20,root,root,r[j],studentsName.get(j),stu.randDOB(),stu.randomAvg(),stu.randomCre());
+		}
+	}
+
+	/*Bubble Sort*/
+	private int[] sort(int[] r){
+		int tmp;
+		for(int i = 1;i<r.length;i++){
+			for(int j = 0;j<r.length-i;j++){
+				if(r[j]>r[j+1]){
+					tmp = r[j];
+					r[j] = r[j+1];
+					r[j+1] = tmp;
+				}
+			}
+		}
+		return r;
+	}
+	/*Update info*/
+	private void update(TreeNode<E> node,String name,String dob,double Avg,int credits){
+		node.setName(name);
+		node.setAVG(Avg);
+		node.setCredits(credits);
+		node.setDOB(dob);
+	}
+
+	public void update(Integer key,String name,String dob,double Avg,int credits){
+		TreeNode<E> node = search(root,key);
+		update(node,name,dob,Avg,credits);
 	}
 
 }

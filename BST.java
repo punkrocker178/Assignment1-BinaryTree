@@ -2,6 +2,7 @@ package hieu;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import jdk.nashorn.api.tree.Tree;
 
 import java.lang.*;
 import java.util.*;
@@ -126,48 +127,112 @@ public class BST<E extends Comparable<E>> extends Student<E> {
     * 1/In order
     * 2/Pre order
     * 3/Post order*/
-    private void inorder(TreeNode<E> node){
+    private String inorder(TreeNode<E> node,String s){
+
         if(node!=null){
-            inorder(node.left);
-            System.out.println(node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits());
-            inorder(node.right);
+
+            s = inorder(node.left,s);
+            s=s+node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits()+"\n";
+
+            s=inorder(node.right,s);
+
         }
+        return s;
     }
 
-    private void preorder(TreeNode<E> node){
+    private String preorder(TreeNode<E> node,String s){
+
         if(node!=null){
-            System.out.println(node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits());
-            preorder(node.left);
-            preorder(node.right);
+
+			s=s+node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits()+"\n";
+
+            s=preorder(node.left,s);
+            s=preorder(node.right,s);
+
         }
+        return s;
     }
 
-    private void postOrder(TreeNode<E> node){
+    private String postOrder(TreeNode<E> node,String s){
+
         if(node!=null){
-            postOrder(node.left);
-            postOrder(node.right);
-            System.out.println(node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits());
+
+            s=postOrder(node.left,s);
+            s=postOrder(node.right,s);
+			s=s+node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits()+"\n";
+
+
         }
+        return s;
     }
+
+    private String RNL(TreeNode<E> node,String s){
+		if(node!=null){
+
+			s=postOrder(node.right,s);
+			s=s+node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits()+"\n";
+			s=postOrder(node.left,s);
+
+		}
+		return s;
+	}
+
+    private String RLN(TreeNode<E> node,String s){
+		if(node!=null){
+
+			s=postOrder(node.right,s);
+			s=postOrder(node.left,s);
+			s=s+node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits()+"\n";
+
+
+		}
+		return s;
+	}
+
+	private String NRL(TreeNode<E> node,String s){
+		if(node!=null){
+
+			s=s+node.getKey()+" - "+node.getName()+" - "+node.getDob()+" - "+node.getAvg()+" - "+node.getCredits()+"\n";
+			s=postOrder(node.left,s);
+			s=postOrder(node.right,s);
+
+		}
+		return s;
+	}
+
 
     /*Print*/
-    public void traverse(int option){
+    public String traverse(int option){
+    	String s= "";
         System.out.println("MSSV - Name - AVG - Credits");
         switch(option){
             case 1:
                 System.out.println("Inorder: ");
-                inorder(root);
+                s = inorder(root,"");
                 break;
             case 2:
                 System.out.println("Preorder: ");
-                preorder((root));
+                s = preorder(root,"");
                 break;
             case 3:
                 System.out.println("Postorder: ");
-                postOrder(root);
+                s = postOrder(root,"");
                 break;
+			case 4:
+				System.out.println("RNL");
+				s = RNL(root,"");
+				break;
+			case 5:
+				System.out.println("NRL");
+				s = NRL(root,"");
+				break;
+			case 6:
+				System.out.println("RLN");
+				s = RLN(root,"");
+				break;
 
         }
+        return s;
     }
 	/*Seach a Node of Tree by a key*/
     private TreeNode<E> search(TreeNode<E> node,Integer key){
@@ -230,23 +295,26 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         return p;
     }
 
-    public void preDecessor(Integer key){
+    public String preDecessor(Integer key){
         TreeNode<E> node = search(root,key);
-        if(searchNode(key)==true) {
-            System.out.println("Predecessor of " + key + " is: " + preDecessor(node).getKey());
-        }else{
-            System.out.println(key+" has no Predecessor!");
-        }
+        Integer getPre = preDecessor(node).getKey();
+//        if(searchNode(key)==true) {
+//            System.out.println("Predecessor of " + key + " is: " + preDecessor(node).getKey());
+//        }else{
+//            System.out.println(key+" has no Predecessor!");
+//        }
+		return getPre+"";
     }
 
-    public void sucCessor(Integer key){
+    public String sucCessor(Integer key){
         TreeNode<E> node = search(root,key);
-        if(searchNode(key)==true){
-            System.out.println("sucCessor of "+key+" is: "+sucCessor(node).getKey());
-        }else{
-            System.out.println(key+" has no Successor!");
-        }
-
+		Integer getSucc = sucCessor(node).getKey();
+//        if(searchNode(key)==true){
+//            System.out.println("sucCessor of "+key+" is: "+sucCessor(node).getKey());
+//        }else{
+//            System.out.println(key+" has no Successor!");
+//        }
+		return getSucc+"";
     }
 
 
@@ -356,6 +424,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
        return info;
     }
 
+    /*Random all info*/
     public void randomize(int n,GraphicsContext gc){
         Collections.shuffle(studentsName);
         for(int i=0;i<n;i++) {
@@ -419,6 +488,20 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         }
         return r;
     }
+
+    /*Update info*/
+    private void update(TreeNode<E> node,String name,String dob,double Avg,int credits){
+    	node.setName(name);
+    	node.setAVG(Avg);
+    	node.setCredits(credits);
+    	node.setDOB(dob);
+	}
+
+	public void update(Integer key,String name,String dob,double Avg,int credits){
+    	TreeNode<E> node = search(root,key);
+    	update(node,name,dob,Avg,credits);
+	}
+
 
 
 }
