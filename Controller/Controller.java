@@ -1,6 +1,9 @@
-package hieu;
+package hieu.Controller;
 
 
+
+import hieu.AVL;
+import hieu.BST;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

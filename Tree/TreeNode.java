@@ -1,4 +1,6 @@
-package hieu;
+package hieu.Tree;
+
+import hieu.Student;
 
 public class TreeNode<T extends Comparable<T>> extends Student<T> {
 
