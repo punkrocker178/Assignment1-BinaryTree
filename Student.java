@@ -38,7 +38,7 @@ public class Student <E extends Comparable<E>> {
         Collections.shuffle(studentsName);
     }
 
-    protected String randDOB(){
+    public String randDOB(){
         int day,month,year;
         day = rand.nextInt(30)+1;
         month = rand.nextInt(11)+1;
@@ -46,15 +46,15 @@ public class Student <E extends Comparable<E>> {
         return day+"/"+month+"/"+year;
     }
 
-    protected int randomMSSV(){
+    public int randomMSSV(){
         return rand.nextInt(999-100)+100;
     }
 
-    protected int randomCre(){
+    public  int randomCre(){
         return rand.nextInt(50)+1;
     }
 
-   protected double randomAvg(){
+   public double randomAvg(){
         double min = 1.0;
         double max =10.0;
         return Double.parseDouble(format.format(min+(max-min)*rand.nextDouble()));

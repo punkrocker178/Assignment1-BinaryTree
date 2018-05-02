@@ -1,4 +1,5 @@
 package hieu;
+import hieu.Tree.BST;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 

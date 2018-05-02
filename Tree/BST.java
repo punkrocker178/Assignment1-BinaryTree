@@ -1,6 +1,7 @@
-package hieu;
+package hieu.Tree;
 
-import hieu.Tree.TreeNode;
+import hieu.Student;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -61,20 +62,19 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         return new TreeNode<E>(key,name,dob,avg,credits,1,0,parent,x,y);
 
     }else if(node!=null){
-        if(node.key.compareTo(key)<0){
+        if(node.getKey().compareTo(key)<0){
 //
-            node.right = insert(gc,node.x+50,node.y+40,node.right,node,key,name,dob,avg,credits);
+            node.right = insert(gc,(30+node.x),node.y+40,node.right,node,key,name,dob,avg,credits);
 
-        }else if(node.key.compareTo(key)>0){
+        }else if(node.getKey().compareTo(key)>0){
 //
-            node.left = insert(gc,node.x-50,node.y+40,node.left,node,key,name,dob,avg,credits);
+            node.left = insert(gc,(node.x-30),node.y+40,node.left,node,key,name,dob,avg,credits);
 
         }
     }
 
         node.size = 1+size(node.left)+size(node.right);
         node.height = 1+Math.max(height(node.left),height(node.right));
-
         gc.stroke();
         return node;
     }
@@ -116,11 +116,11 @@ public class BST<E extends Comparable<E>> extends Student<E> {
     }
 
     public void Max(){
-        System.out.println("Max is: "+findMax(root).key);
+        System.out.println("Max is: "+findMax(root).getKey());
     }
 
     public void Min(){
-        System.out.println("Min is: "+findMin(root).key);
+        System.out.println("Min is: "+findMin(root).getKey());
     }
 
     /*3 type of Tree Traversal
@@ -237,13 +237,13 @@ public class BST<E extends Comparable<E>> extends Student<E> {
 	/*Seach a Node of Tree by a key*/
     private TreeNode<E> search(TreeNode<E> node,Integer key){
         if(node!=null){
-            if(node.key.compareTo(key)==0){
+            if(node.getKey().compareTo(key)==0){
                 return node;
             }
-            else if(node.key.compareTo(key)<0){
+            else if(node.getKey().compareTo(key)<0){
                 return search(node.right,key);
 
-            }else if(node.key.compareTo(key)>0){
+            }else if(node.getKey().compareTo(key)>0){
                 return search(node.left,key);
             }
         }
@@ -380,7 +380,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
 			* Explaination: find the successor of a node and copy the successor's data to the current Node
 			 * then delete the successor's Node
 			 * Update tree size and height again*/
-            node.key = sucCessor(node).getKey();
+            node.setKey(sucCessor(node).getKey());
             node.right = delete(node.right,node.right.getKey());
 
             node.size = 1 + size(node.left) + size(node.right);
@@ -430,7 +430,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
         for(int i=0;i<n;i++) {
             Student stu = new Student();
 //            root = insert(root, root.randomMSSV(), studentsName.get(i), root.randomAvg(), root.randomCre());
-            root = insert(gc,400,20,root,root,stu.randomMSSV(),studentsName.get(i),stu.randDOB(),stu.randomAvg(),stu.randomCre());
+            root = insert(gc,640,20,root,root,stu.randomMSSV(),studentsName.get(i),stu.randDOB(),stu.randomAvg(),stu.randomCre());
 
         }
     }
@@ -450,7 +450,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
 
         for(int j=0;j<n;j++){
             Student stu = new Student();
-            root = insert(gc,400,20,root,root,r[j],studentsName.get(j),stu.randDOB(),stu.randomAvg(),stu.randomCre());
+            root = insert(gc,640,20,root,root,r[j],studentsName.get(j),stu.randDOB(),stu.randomAvg(),stu.randomCre());
         }
 
     }
@@ -470,7 +470,7 @@ public class BST<E extends Comparable<E>> extends Student<E> {
 
 		for(int j=n-1;j>=0;j--){
 			Student stu = new Student();
-			root = insert(gc,400,20,root,root,r[j],studentsName.get(j),stu.randDOB(),stu.randomAvg(),stu.randomCre());
+			root = insert(gc,640,20,root,root,r[j],studentsName.get(j),stu.randDOB(),stu.randomAvg(),stu.randomCre());
 		}
 	}
 

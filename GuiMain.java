@@ -15,7 +15,7 @@ public class GuiMain extends Application  {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("Gui/TreeGui.fxml"));                  //Get file fxml
+        Parent root = FXMLLoader.load(getClass().getResource("Controller/TreeGui.fxml"));                  //Get file fxml
         primaryStage.setTitle("Binary Tree and AVL Tree");
         Image img = new Image("file:hieu\\mineIcon.jpg");
         primaryStage.getIcons().add(img);

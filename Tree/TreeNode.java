@@ -24,6 +24,7 @@ public class TreeNode<T extends Comparable<T>> extends Student<T> {
 		this.y =y;
 	}
 
+	public void setKey(int key){ this.key = key; }
 
 	public void setName(String name){
 		this.name = name;

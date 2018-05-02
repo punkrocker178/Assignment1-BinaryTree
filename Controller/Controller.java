@@ -1,9 +1,7 @@
 package hieu.Controller;
 
-
-
-import hieu.AVL;
-import hieu.BST;
+import hieu.Tree.AVL;
+import hieu.Tree.BST;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
